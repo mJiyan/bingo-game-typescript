@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import Confetti from 'react-confetti';
 import Bingo from './Components/Bingo';
-import data from './fake-data/data';
 
 type BingoType = {
   id: number;
@@ -10,13 +9,17 @@ type BingoType = {
   isSelected: boolean;
 };
 
-// bingo informations for x, y and diagnol axises
+type BingoList = {
+  data: Array<BingoType>;
+};
+
+// bingo informations of x, y and diagnol axises
 const xAxisBingo = [false, false, false, false, false];
 const yAxisBingo = [false, false, false, false, false];
 let diagnolPositiveBingo = false;
 let diagnolNegativeBingo = false;
 
-const App = () => {
+const App: React.FC<BingoList> = ({ data }) => {
   const [bingoData, setBingoData] = useState<Array<BingoType>>(data);
   const [celebration, setCelebration] = useState<boolean>(false);
 
@@ -57,7 +60,7 @@ const App = () => {
     let isYBingo = true;
 
     // if index is placed on the diagnol axis the function is executed
-    // and check if there is bingo at diagnol axis
+    // and checks if there is bingo at diagnol axis
     if (isDiagnolPositiveAxis) {
       diagnolPositiveBingo = true;
       for (let q = 0; q < 5; q += 1) {
@@ -68,7 +71,7 @@ const App = () => {
     }
 
     // if index is placed on the diagnol axis the function is executed
-    // and check if there is bingo at diagnol axis
+    // and checks if there is bingo at diagnol axis
     if (isDiagnolNegativeAxis) {
       diagnolNegativeBingo = true;
       for (let q = 0; q < 5; q += 1) {
@@ -78,7 +81,7 @@ const App = () => {
       }
     }
 
-    // check if there is bingo x-axis and/or y-axis
+    // checks if there is bingo x-axis and/or y-axis
     for (let i = 0; i < 5; i += 1) {
       if (bingoData[xStartingIndex + i].isSelected === false && xStartingIndex + i !== 12) {
         isXBingo = false;
@@ -130,16 +133,15 @@ const App = () => {
     <>
       {celebration && <Confetti width={width} height={height} recycle={false} />}
       <div className="bg-gradient-to-r from-mainColor to-secondColor">
-        <div className="flex flex-col items-center justify-center h-screen -rotate-2 ">
-          <div className="grid grid-cols-5 grid-rows-6 ">
+        <div className="flex flex-col items-center justify-center h-screen -rotate-2">
+          <div className="grid grid-cols-5 grid-rows-6">
             <Bingo />
             {bingoData &&
               bingoData.map(
                 (item, index) =>
                   (index !== 12 && (
-                    <div className="border border-black p-2 sm:p-1 bg-white">
+                    <div className="border border-black p-2 sm:p-1 bg-white" key={index}>
                       <div
-                        key={index}
                         className={`flex flex-col h-32 w-32 md:h-32 md:w-32 sm:w-14 sm:h-14 ${
                           (yBingo(index) ||
                             xBingo(index) ||
@@ -148,7 +150,7 @@ const App = () => {
                           'bg-mainColor'
                         } `}
                       >
-                        <header className="flex flex-col items-end ">
+                        <header className="flex flex-col items-end">
                           <p
                             className={`text-sm md:text-sm sm:text-xs lg:p-1 md:p-1 lg:mt-1 md:p-1 fixed ${
                               item.isSelected && 'opacity-20'
@@ -173,7 +175,7 @@ const App = () => {
                     </div>
                   )) ||
                   (index === 12 && (
-                    <div className="border border-black p-2 sm:p-1 bg-white">
+                    <div className="border border-black p-2 sm:p-1 bg-white" key={12}>
                       <div className="flex flex-col h-32 w-32 md:h-32 md:w-32 sm:w-14 sm:h-14 border-4 sm:border-2 border-black rounded-full">
                         <header className="flex flex-col items-end ">
                           <p className="text-sm md:text-sm sm:text-xs lg:p-1 md:p-1 lg:mt-1 md:p-1 fixed" />
