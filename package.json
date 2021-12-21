@@ -19,10 +19,13 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "webpack serve --config ./webpack.config.js --mode development --host 0.0.0.0",
+    "build": "webpack --mode production",
+    "test": "jest --config ./jest.config.js",
+    "eject": "react-scripts eject",
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "lint:fix": "eslint src/**/*{ts,tsx} --fix",
+    "format": "prettier src/**/*{ts,tsx} --write"
   },
   "browserslist": {
     "production": [
@@ -37,8 +40,22 @@
     ]
   },
   "devDependencies": {
+    "@svgr/webpack": "^5.5.0",
     "autoprefixer": "^10.4.0",
+    "babel-plugin-styled-components": "^2.0.2",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-typescript": "^16.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "html-webpack-plugin": "^5.3.2",
+    "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss": "^8.4.5",
-    "tailwindcss": "^3.0.7"
+    "prettier": "^2.3.2",
+    "tailwindcss": "^3.0.7",
+    "terser-webpack-plugin": "^5.1.4",
+    "ts-loader": "^9.2.6",
+    "webpack": "^5.42.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^3.11.2"
   }
 }
