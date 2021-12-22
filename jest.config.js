@@ -4,6 +4,8 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
+    '!src/index.tsx',
+
   ],
   setupFilesAfterEnv: ['./__test__/setup/setupTest.js', 'canvas'],
   globals: {
