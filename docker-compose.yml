@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+    # Create client container
+    client: # Name of our service
+      stdin_open: true
+      build: .
+      ports: # Port binding to host from docker container
+        - "8080:8080" # Bind port 3000 of host to 3000 of container
+      container_name: bingo-docker
+      restart: always # What to do if container crashes
