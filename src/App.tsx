@@ -9,6 +9,11 @@ type BingoType = {
   isSelected: boolean;
 };
 
+type App = {
+  data: Array<BingoType>;
+  test: boolean
+}
+
 type BingoList = {
   data: Array<BingoType>;
 };
@@ -19,7 +24,7 @@ const yAxisBingo = [false, false, false, false, false];
 let diagnolPositiveBingo = false;
 let diagnolNegativeBingo = false;
 
-const App: React.FC<BingoList> = ({ data }) => {
+const App: React.FC<App> = ({ data, test }) => {
   const [bingoData, setBingoData] = useState<Array<BingoType>>(data);
   const [celebration, setCelebration] = useState<boolean>(false);
 
@@ -28,6 +33,7 @@ const App: React.FC<BingoList> = ({ data }) => {
   useEffect(() => {
     shuffleBingoData(bingoData);
   }, []);
+  
 
   // it changing state of selected index
   const selectSlot = (id: number): void => {
@@ -92,7 +98,7 @@ const App: React.FC<BingoList> = ({ data }) => {
     }
 
     // if there is a bingo than the celebration animation will execute
-    if (isXBingo || isYBingo || diagnolPositiveBingo || diagnolNegativeBingo) {
+    if ((isXBingo || isYBingo || diagnolPositiveBingo || diagnolNegativeBingo) && !test) {
       setCelebration(true);
       setTimeout(() => setCelebration(false), 5000);
     }
@@ -131,7 +137,7 @@ const App: React.FC<BingoList> = ({ data }) => {
 
   return (
     <>
-      {celebration && <Confetti width={width} height={height} recycle={false} />}
+      {!test && celebration && <Confetti width={width} height={height} recycle={false} />}
       <div className="bg-gradient-to-r from-mainColor to-secondColor">
         <div className="flex flex-col items-center justify-center h-screen -rotate-2">
           <div className="grid grid-cols-5 grid-rows-6">
@@ -149,8 +155,12 @@ const App: React.FC<BingoList> = ({ data }) => {
                             (diagnolNegativeBingo && negativeDiagnolBingo(index))) &&
                           'bg-mainColor'
                         } `}
+                        data-testid={`test-box-${index}`}
                       >
-                        <header className="flex flex-col items-end">
+                        <header
+                          className="flex flex-col items-end"
+                          data-testid={`test-header-${index}`}
+                        >
                           <p
                             className={`text-sm md:text-sm sm:text-xs lg:p-1 md:p-1 lg:mt-1 md:p-1 fixed ${
                               item.isSelected && 'opacity-20'
@@ -162,11 +172,13 @@ const App: React.FC<BingoList> = ({ data }) => {
                         <div
                           className="flex flex-row items-center justify-center cursor-pointer h-screen w-full px-2"
                           onClick={() => selectSlot(index)}
+                          data-testid={`test-button-${index}`}
                         >
                           <p
                             className={`lg:text-base md:text-sm sm:text-xs ${isItSelected(
                               item.isSelected,
                             )}`}
+                            data-testid={`test-content-${index}`}
                           >
                             {item.information}
                           </p>

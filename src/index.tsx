@@ -6,7 +6,7 @@ import data from './fake-data/data';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App data={data} />
+    <App data={data} test={false}/>
   </React.StrictMode>,
   document.getElementById('root'),
 );

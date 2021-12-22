@@ -5,7 +5,7 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
   ],
-  setupFilesAfterEnv: ['./__test__/setup/setupTest.js'],
+  setupFilesAfterEnv: ['./__test__/setup/setupTest.js', 'canvas'],
   globals: {
     'ts-jest': {
       // Tell ts-jest about our typescript config.
